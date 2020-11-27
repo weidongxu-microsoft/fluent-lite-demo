@@ -11,7 +11,8 @@ import com.azure.resourcemanager.AzureResourceManager;
 import com.azure.resourcemanager.mediaservices.MediaservicesManager;
 import com.azure.resourcemanager.mediaservices.models.MediaService;
 import com.azure.resourcemanager.storage.models.StorageAccount;
-import com.google.common.collect.ImmutableList;
+
+import java.util.Collections;
 
 public class Main {
 
@@ -54,7 +55,7 @@ public class Main {
         MediaService mediaService = mediaservicesManager.mediaservices().define(MS_NAME)
                 .withRegion(Region.US_WEST)
                 .withExistingResourceGroup(RG_NAME)
-                .withStorageAccounts(ImmutableList.of(
+                .withStorageAccounts(Collections.singletonList(
                         new com.azure.resourcemanager.mediaservices.models.StorageAccount()
                                 .withId(storageAccount.id())
                                 .withType(com.azure.resourcemanager.mediaservices.models.StorageAccountType.PRIMARY)))
