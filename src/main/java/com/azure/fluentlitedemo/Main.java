@@ -10,6 +10,7 @@ import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.resourcemanager.AzureResourceManager;
 import com.azure.resourcemanager.mediaservices.MediaservicesManager;
 import com.azure.resourcemanager.mediaservices.models.MediaService;
+import com.azure.resourcemanager.storage.StorageManager;
 import com.azure.resourcemanager.storage.models.StorageAccount;
 
 import java.util.Collections;
@@ -29,10 +30,9 @@ public class Main {
         TokenCredential tokenCredential = new DefaultAzureCredentialBuilder().build();
 
         // init Fluent Premium
-        AzureResourceManager azure = AzureResourceManager.configure()
+        StorageManager storageManager = StorageManager.configure()
                 .withHttpClient(httpClient)
-                .authenticate(tokenCredential, new AzureProfile(AzureEnvironment.AZURE))
-                .withDefaultSubscription();
+                .authenticate(tokenCredential, new AzureProfile(AzureEnvironment.AZURE));
 
         // init Fluent Lite media service
         MediaservicesManager mediaservicesManager = MediaservicesManager.configure()
@@ -42,7 +42,7 @@ public class Main {
         logger.info("begin create storage account");
 
         // Fluent Premium to create resource group and storage account
-        StorageAccount storageAccount = azure.storageAccounts().define(SA_NAME)
+        StorageAccount storageAccount = storageManager.storageAccounts().define(SA_NAME)
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup(RG_NAME)
                 .create();
@@ -63,6 +63,6 @@ public class Main {
 
         logger.info("media service created {}", mediaService.id());
 
-        azure.resourceGroups().beginDeleteByName(RG_NAME);
+        storageManager.resourceManager().resourceGroups().beginDeleteByName(RG_NAME);
     }
 }
