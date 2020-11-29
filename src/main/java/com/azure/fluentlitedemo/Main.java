@@ -10,6 +10,7 @@ import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.resourcemanager.AzureResourceManager;
 import com.azure.resourcemanager.mediaservices.MediaservicesManager;
 import com.azure.resourcemanager.mediaservices.models.MediaService;
+import com.azure.resourcemanager.mediaservices.models.StorageAccountType;
 import com.azure.resourcemanager.storage.StorageManager;
 import com.azure.resourcemanager.storage.models.StorageAccount;
 
@@ -55,10 +56,9 @@ public class Main {
         MediaService mediaService = mediaservicesManager.mediaservices().define(MS_NAME)
                 .withRegion(Region.US_WEST)
                 .withExistingResourceGroup(RG_NAME)
-                .withStorageAccounts(Collections.singletonList(
-                        new com.azure.resourcemanager.mediaservices.models.StorageAccount()
-                                .withId(storageAccount.id())
-                                .withType(com.azure.resourcemanager.mediaservices.models.StorageAccountType.PRIMARY)))
+                .withStorageAccounts(Collections.singletonList(new com.azure.resourcemanager.mediaservices.models.StorageAccount()
+                        .withId(storageAccount.id())
+                        .withType(StorageAccountType.PRIMARY)))
                 .create();
 
         logger.info("media service created {}", mediaService.id());
