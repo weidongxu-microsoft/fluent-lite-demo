@@ -39,7 +39,7 @@
     <dependencies>
         <dependency>
             <groupId>com.azure.resourcemanager</groupId>
-            <artifactId>azure-resourcemanager</artifactId>
+            <artifactId>azure-resourcemanager-storage</artifactId>
             <version>2.1.0</version>
         </dependency>
 

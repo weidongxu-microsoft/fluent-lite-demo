@@ -7,7 +7,6 @@ import com.azure.core.management.Region;
 import com.azure.core.management.profile.AzureProfile;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.identity.DefaultAzureCredentialBuilder;
-import com.azure.resourcemanager.AzureResourceManager;
 import com.azure.resourcemanager.mediaservices.MediaservicesManager;
 import com.azure.resourcemanager.mediaservices.models.MediaService;
 import com.azure.resourcemanager.mediaservices.models.StorageAccountType;
@@ -63,6 +62,17 @@ public class Main {
 
         logger.info("media service created {}", mediaService.id());
 
+        // manage resources
+        mediaservicesManager.mediaservices().getById(mediaService.id());
+
+        storageManager.storageAccounts().getById(storageAccount.id());
+
+        // delete resources
+        mediaservicesManager.mediaservices().deleteById(mediaService.id());
+
+        storageManager.storageAccounts().deleteById(storageAccount.id());
+
+        // clean up
         storageManager.resourceManager().resourceGroups().beginDeleteByName(RG_NAME);
     }
 }
